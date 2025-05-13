@@ -1,14 +1,14 @@
 import SwiftUI
 import SwiftData
 
-struct KonfirmasiPenjualanView: View {
+struct ConfirmationSalesView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
 
     @State private var isSaving = false
     
     let selectedDate: Date
-    let selectedItems: [Product: Int]
+    let selectedItems: [Products: Int]
     let onSave: () -> Void
     
     
@@ -98,10 +98,10 @@ struct KonfirmasiPenjualanView: View {
         guard !isSaving else { return }
         isSaving = true
 
-        let sale = Sale(date: selectedDate)
+        let sale = Sales(date: selectedDate)
 
         for (product, quantity) in selectedItems where quantity > 0 {
-            let item = ProductOnSale(product: product, quantity: quantity, priceAtSale: product.price)
+            let item = ProductsOnSales(product: product, quantity: quantity, priceAtSale: product.price)
             sale.items.append(item)
         }
 

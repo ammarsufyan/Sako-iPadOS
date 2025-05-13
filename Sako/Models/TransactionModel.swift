@@ -1,13 +1,13 @@
 import Foundation
 import SwiftData
 
-// MARK: - Product Model
+// MARK: - Products Model
 @Model
-final class Product {
+final class Products {
     @Attribute(.unique) var id: UUID = UUID()
     var name: String
     var price: Int
-    var items: [ProductOnSale]?  // Relasi ke ProductOnSale
+    var items: [ProductsOnSales]?  // Relasi ke ProductOnSale
     
     init(name: String, price: Int) {
         self.name = name
@@ -15,37 +15,36 @@ final class Product {
     }
 }
 
-// MARK: - ProductOnSale Model (Junction Table)
+// MARK: - ProductsOnSales Model (Junction Table)
 @Model
-final class ProductOnSale {
+final class ProductsOnSales {
     @Attribute(.unique) var id: UUID = UUID()
-    var product: Product // Relasi ke Product
+    var product: Products
     var quantity: Int
     var priceAtSale: Int
-    var sale: Sale? // Relasi ke Sale
     
-    init(product: Product, quantity: Int, priceAtSale: Int? = nil) {
+    init(product: Products, quantity: Int, priceAtSale: Int? = nil) {
         self.product = product
         self.quantity = max(1, quantity)
         self.priceAtSale = priceAtSale ?? product.price
     }
 }
 
-// MARK: - Sale Model
+// MARK: - Sales Model
 @Model
-final class Sale {
+final class Sales {
     @Attribute(.unique) var id: UUID = UUID()
     var date: Date
-    var items: [ProductOnSale] = []
+    var items: [ProductsOnSales] = []
     
     // Computed property: Total harga transaksi
     var totalPrice: Int {
         items.reduce(0) { $0 + ($1.priceAtSale * $1.quantity) }
     }
     
-    // Computed property: Daftar nama produk + quantity
-    var productNames: String {
-        items.map { "\($0.product.name) × \($0.quantity)" }.joined(separator: ", ")
+    // Computed property: Daftar nama produk + quantity + harga
+    var productDetails: String {
+        items.map { "\($0.product.name) × \($0.quantity) @ Rp \($0.priceAtSale.formatPrice())" }.joined(separator: ", ")
     }
     
     init(date: Date) {

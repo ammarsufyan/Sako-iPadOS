@@ -1,8 +1,8 @@
 import SwiftUI
 import SwiftData
 
-struct TambahProdukView: View {
-    @Query private var products: [Product]
+struct AddProductView: View {
+    @Query private var products: [Products]
 
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var context
@@ -149,7 +149,7 @@ struct TambahProdukView: View {
         
         guard let harga = Int(priceInput) else { return }
         
-        let newProduct = Product(name: name, price: harga)
+        let newProduct = Products(name: name, price: harga)
         context.insert(newProduct)
         try? context.save()
         dismiss()

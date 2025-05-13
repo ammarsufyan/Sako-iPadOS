@@ -1,4 +1,3 @@
-// File: Utilities/Date+Extensions.swift
 import Foundation
 
 extension Date {

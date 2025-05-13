@@ -1,15 +1,15 @@
 import SwiftUI
 import SwiftData
 
-struct DataProdukView: View {
-    @Query var products: [Product]
+struct ProductListView: View {
+    @Query var products: [Products]
     
     @Environment(\.dismiss) var dismiss
 
     @State private var showTambahProduk = false
     @State private var searchText = ""
 
-    var filteredProducts: [Product] {
+    var filteredProducts: [Products] {
         searchText.isEmpty ? products : products.filter {
             $0.name.localizedCaseInsensitiveContains(searchText)
         }
@@ -90,7 +90,7 @@ struct DataProdukView: View {
         }
         .background(Color(.systemGray6))
         .sheet(isPresented: $showTambahProduk) {
-            TambahProdukView()
+            AddProductView()
                 .presentationDetents([.large])
         }
         .navigationBarBackButtonHidden(true)
@@ -99,5 +99,5 @@ struct DataProdukView: View {
 
 // MARK: - Preview
 #Preview {
-    DataProdukView()
+    ProductListView()
 }

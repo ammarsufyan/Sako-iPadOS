@@ -1,19 +1,19 @@
 import SwiftUI
 import SwiftData
 
-struct TambahPenjualanView: View {
-    @Query private var allProducts: [Product]
+struct AddSalesView: View {
+    @Query private var allProducts: [Products]
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var context
     
-    @State private var selectedItems: [Product: Int] = [:]
+    @State private var selectedItems: [Products: Int] = [:]
     @State private var searchText = ""
     @State private var showConfirmationSheet = false
     
     let selectedDate: Date
 
-    var filteredProducts: [Product] {
+    var filteredProducts: [Products] {
         if searchText.isEmpty {
             return allProducts
         }
@@ -72,7 +72,7 @@ struct TambahPenjualanView: View {
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(filteredProducts) { product in
-                            ProductRowCardView(product: product, quantity: selectedItems[product] ?? 0) { newQty in
+                            SalesProductCardView(product: product, quantity: selectedItems[product] ?? 0) { newQty in
                                 if newQty == 0 {
                                     selectedItems.removeValue(forKey: product)
                                 } else {
@@ -107,7 +107,7 @@ struct TambahPenjualanView: View {
         }
         .background(Color(.systemGray6))
         .sheet(isPresented: $showConfirmationSheet) {
-            KonfirmasiPenjualanView(
+            ConfirmationSalesView(
                 selectedDate: selectedDate,
                 selectedItems: selectedItems,
                 onSave: {

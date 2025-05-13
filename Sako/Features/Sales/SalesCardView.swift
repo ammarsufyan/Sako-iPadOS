@@ -1,10 +1,10 @@
 import SwiftUI
 import Foundation
 
-struct PenjualanCardView: View {
+struct SalesCardView: View {
     @State private var showAllItems = false
     
-    let sale: Sale
+    let sale: Sales
     let index: Int
 
     var body: some View {

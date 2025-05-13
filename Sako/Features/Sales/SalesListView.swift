@@ -1,8 +1,8 @@
 import SwiftUI
 import SwiftData
 
-struct DataPenjualanView: View {
-    @Query var sales: [Sale]
+struct SalesListView: View {
+    @Query var sales: [Sales]
     
     @Environment(\.dismiss) var dismiss
     
@@ -21,10 +21,10 @@ struct DataPenjualanView: View {
         
     }
     
-    private var filteredSales: [Sale] {
+    private var filteredSales: [Sales] {
         sales.filter { sale in
             let isSameDate = Calendar.current.isDate(sale.date, inSameDayAs: selectedDate)
-            let matchesSearch = searchText.isEmpty || sale.productNames.localizedCaseInsensitiveContains(searchText)
+            let matchesSearch = searchText.isEmpty || sale.productDetails.localizedCaseInsensitiveContains(searchText)
             return isSameDate && matchesSearch
         }
     }
@@ -124,7 +124,7 @@ struct DataPenjualanView: View {
             } else {
                 List {
                     ForEach(Array(filteredSales.enumerated()), id: \.element.id) { index, sale in
-                        PenjualanCardView(sale: sale, index: index)
+                        SalesCardView(sale: sale, index: index)
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.clear)
                     }
@@ -137,7 +137,7 @@ struct DataPenjualanView: View {
         }
         .background(Color(.systemGray6))
         .sheet(isPresented: $showTambahPenjualan) {
-            TambahPenjualanView(selectedDate: selectedDate)
+            AddSalesView(selectedDate: selectedDate)
                 .presentationDetents([.large])
         }
         .navigationBarBackButtonHidden(true)
@@ -146,5 +146,5 @@ struct DataPenjualanView: View {
 
 // MARK: - Preview
 #Preview {
-    DataPenjualanView()
+    SalesListView()
 }

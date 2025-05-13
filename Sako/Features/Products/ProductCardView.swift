@@ -2,9 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct ProductCardView: View {
-    @Query private var products: [Product]
+    @Query private var products: [Products]
     
-    @Bindable var product: Product
+    @Bindable var product: Products
 
     @Environment(\.modelContext) private var context
 

@@ -6,9 +6,9 @@ import TipKit
 struct SakoApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Product.self,
-            ProductOnSale.self,
-            Sale.self
+            Products.self,
+            ProductsOnSales.self,
+            Sales.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -21,12 +21,7 @@ struct SakoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            BerandaView()
-                .task {
-                    try? Tips.configure([
-                        .datastoreLocation(.applicationDefault)
-                    ])
-                }
+            RecapView()
         }
         .modelContainer(sharedModelContainer)
     }

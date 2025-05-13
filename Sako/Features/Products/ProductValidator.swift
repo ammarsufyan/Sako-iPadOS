@@ -1,7 +1,7 @@
 import Foundation
 
 struct ProductValidator {
-    static func validateName(_ name: String, existingProducts: [Product]) -> String? {
+    static func validateName(_ name: String, existingProducts: [Products]) -> String? {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         let isDuplicate = existingProducts.contains { $0.name.lowercased() == name.lowercased() }
 
@@ -28,7 +28,7 @@ struct ProductValidator {
         return nil
     }
     
-    static func validateEditedName(_ name: String, existingProducts: [Product]) -> String? {
+    static func validateEditedName(_ name: String, existingProducts: [Products]) -> String? {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
 
         if trimmed.isEmpty {

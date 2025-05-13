@@ -1,8 +1,8 @@
 import SwiftUI
 import SwiftData
 
-struct ProductRowCardView: View {
-    let product: Product
+struct SalesProductCardView: View {
+    let product: Products
     let quantity: Int
     let onQuantityChange: (Int) -> Void
 
