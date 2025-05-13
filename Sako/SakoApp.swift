@@ -21,7 +21,7 @@ struct SakoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RecapView()
+            DestinationTabs()
         }
         .modelContainer(sharedModelContainer)
     }
