@@ -32,16 +32,6 @@ struct SalesListView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Kembali")
-                    }
-                }
-                .foregroundColor(.blue)
-
                 Spacer()
 
                 Button {

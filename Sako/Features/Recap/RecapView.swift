@@ -355,11 +355,11 @@ struct RecapView: View {
                 .padding(.top, 4)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("Rp\(formatPrice(totalRevenue))")
+                Text("Rp\(formattedPrice(totalRevenue))")
                     .font(.system(size: 36, weight: .bold))
                 
                 let difference = abs(totalRevenue - previousMonthRevenue)
-                Text("Rp\(formatPrice(difference)) (\(isRevenueGrowthPositive ? "↑" : "↓")\(String(format: "%.1f", abs(revenueGrowth)))%)")
+                Text("Rp\(formattedPrice(difference)) (\(isRevenueGrowthPositive ? "↑" : "↓")\(String(format: "%.1f", abs(revenueGrowth)))%)")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(isRevenueGrowthPositive ? .green : .red)
             }
@@ -446,7 +446,7 @@ struct RecapView: View {
                                     Spacer()
                                     
                                     VStack(alignment: .trailing) {
-                                        Text("Rp\(formatPrice(product.sales))")
+                                        Text("Rp\(formattedPrice(product.sales))")
                                             .font(.system(size: 14))
                                             .foregroundStyle(.black)
 
@@ -488,7 +488,7 @@ struct RecapView: View {
                                         Spacer()
                                         
                                         VStack(alignment: .trailing) {
-                                            Text("Rp\(formatPrice(product.sales))")
+                                            Text("Rp\(formattedPrice(product.sales))")
                                                 .font(.system(size: 14))
                                                 .foregroundStyle(.black)
                                             
@@ -594,7 +594,7 @@ struct RecapView: View {
         return formatter.string(from: date).capitalized
     }
 
-    private func formatPrice(_ value: Int) -> String {
+    private func formattedPrice(_ value: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = "."
