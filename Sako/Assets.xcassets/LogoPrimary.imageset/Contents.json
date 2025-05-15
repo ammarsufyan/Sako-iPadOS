@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Logo2Sako100.png",
+      "filename" : "LogoPrimary.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Logo2Sako200.png",
+      "filename" : "LogoPrimary 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Logo2Sako300.png",
+      "filename" : "LogoPrimary 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

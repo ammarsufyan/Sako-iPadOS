@@ -18,6 +18,34 @@ extension View {
     }
 }
 
+// Helper untuk export PDF
+class RecapExporter {
+    static func exportRecapToPDF<Content: View>(
+        content: Content,
+        width: CGFloat = 834,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) {
+        // Render dengan delay kecil untuk memberikan waktu UI diupdate
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            // Pastikan viewport ukuran yang diinginkan
+            let exportView = content
+                .frame(width: width)
+                .padding(.top, 20)
+                .padding(.bottom, 30)
+            
+            // Render view ke image
+            let image = exportView.renderAsImage()
+            
+            // Generate PDF dari image
+            if let pdfData = PDFGenerator.generatePDF(from: image, title: "Rekapan") {
+                completion(.success(pdfData))
+            } else {
+                completion(.failure(PDFGenerationError()))
+            }
+        }
+    }
+}
+
 // PDF Generator
 struct PDFGenerator {
     static func generatePDF(from image: UIImage, title: String) -> Data? {
@@ -124,30 +152,17 @@ struct PDFGenerationError: Error {
     let message = "Gagal membuat file PDF"
 }
 
-// Helper untuk export PDF
-class RecapExporter {
-    static func exportRecapToPDF<Content: View>(
-        content: Content,
-        width: CGFloat = 834,
-        completion: @escaping (Result<Data, Error>) -> Void
-    ) {
-        // Render dengan delay kecil untuk memberikan waktu UI diupdate
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            // Pastikan viewport ukuran yang diinginkan
-            let exportView = content
-                .frame(width: width)
-                .padding(.top, 20)
-                .padding(.bottom, 30)
-            
-            // Render view ke image
-            let image = exportView.renderAsImage()
-            
-            // Generate PDF dari image
-            if let pdfData = PDFGenerator.generatePDF(from: image, title: "Rekapan") {
-                completion(.success(pdfData))
-            } else {
-                completion(.failure(PDFGenerationError()))
-            }
+// Helper untuk capture UIView dari SwiftUI View
+struct ViewCaptureRepresentable: UIViewRepresentable {
+    @Binding var viewContainer: UIView?
+    
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        DispatchQueue.main.async {
+            viewContainer = view
         }
+        return view
     }
-} 
+    
+    func updateUIView(_ uiView: UIView, context: Context) {}
+}

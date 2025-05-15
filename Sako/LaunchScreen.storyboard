@@ -21,9 +21,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LogoSakoPrimary" translatesAutoresizingMaskIntoConstraints="NO" id="PPa-mt-e9D">
-                                <rect key="frame" x="364" y="213" width="453" height="395"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LogoPrimary" translatesAutoresizingMaskIntoConstraints="NO" id="Vvo-dz-AVj">
+                                <rect key="frame" x="334" y="154" width="512" height="512"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
@@ -33,6 +32,8 @@
                         </accessibility>
                         <constraints>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
+                            <constraint firstItem="Vvo-dz-AVj" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="7bz-wd-KEx"/>
+                            <constraint firstItem="Vvo-dz-AVj" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Ne1-b0-zui"/>
                             <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
                             <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
                         </constraints>
@@ -40,10 +41,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="51.951219512195124" y="374.23728813559325"/>
+            <point key="canvasLocation" x="51.864406779661017" y="373.90243902439022"/>
         </scene>
     </scenes>
     <resources>
-        <image name="LogoSakoPrimary" width="100" height="100"/>
+        <image name="LogoPrimary" width="512" height="512"/>
     </resources>
 </document>

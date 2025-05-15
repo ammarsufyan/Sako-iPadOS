@@ -7,14 +7,7 @@ struct MonthYearPicker: UIViewControllerRepresentable {
         let vc = UIViewController()
         let picker = UIDatePicker()
 
-        // Deteksi iOS 17.4 atau tidak
-        if #available(iOS 17.4, *) {
-            picker.datePickerMode = .yearAndMonth
-        } else {
-            // "Magic value" untuk iOS < 17.4
-            picker.datePickerMode = .init(rawValue: 4269) ?? .date
-        }
-
+        picker.datePickerMode = .yearAndMonth
         picker.preferredDatePickerStyle = .wheels
         picker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged(_:)), for: .valueChanged)
         picker.date = selectedDate

@@ -94,7 +94,7 @@ struct RecapView: View {
         
         return (1...4).map { week in
             let weekRevenue = weeklyData[week] ?? 0
-            return WeeklyData(week: "Minggu Ke-\(week)", value: weekRevenue)
+            return WeeklyData(week: "Minggu \(week)", value: weekRevenue)
         }
     }
     
@@ -104,7 +104,7 @@ struct RecapView: View {
         
         return (1...4).map { week in
             let weekOrders = weeklyData[week] ?? 0
-            return WeeklyData(week: "Minggu Ke-\(week)", value: weekOrders)
+            return WeeklyData(week: "Minggu \(week)", value: weekOrders)
         }
     }
     
@@ -208,6 +208,7 @@ struct RecapView: View {
                     .padding(.bottom, 20)
                 }
             }
+            .background(Color(.systemGray6))
             .background(ViewCaptureRepresentable(viewContainer: $viewContainer))
             
             // Overlays only when not exporting and specific conditions are met
@@ -313,9 +314,9 @@ struct RecapView: View {
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
+                    .fill(.white)
                     .stroke(Color.gray.opacity(0.4))
             )
-            .frame(width: 150, height: 34)
         }
         .popover(isPresented: $isPresented, arrowEdge: .top) {
             VStack {
@@ -343,6 +344,7 @@ struct RecapView: View {
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 8)
+                    .fill(.white)
                     .stroke(Color.gray.opacity(0.4))
             )
         }
@@ -374,6 +376,7 @@ struct RecapView: View {
         .padding(20)
         .background(
             RoundedRectangle(cornerRadius: 8)
+                .fill(.white)
                 .stroke(Color.gray.opacity(0.4))
         )
         .frame(maxWidth: .infinity, maxHeight: 344)
@@ -405,6 +408,7 @@ struct RecapView: View {
         .padding(20)
         .background(
             RoundedRectangle(cornerRadius: 8)
+                .fill(.white)
                 .stroke(Color.gray.opacity(0.4))
         )
         .frame(maxWidth: .infinity, maxHeight: 344)
@@ -524,6 +528,7 @@ struct RecapView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.gray.opacity(0.4))
         )
+        .background(.white)
         .frame(maxWidth: .infinity, maxHeight: 352)
     }
 
@@ -609,21 +614,6 @@ struct TopProduct: Identifiable {
     let name: String
     let sales: Int
     let quantity: Int
-}
-
-// Helper untuk capture UIView dari SwiftUI View
-struct ViewCaptureRepresentable: UIViewRepresentable {
-    @Binding var viewContainer: UIView?
-    
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        DispatchQueue.main.async {
-            viewContainer = view
-        }
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
 }
 
 #Preview {
