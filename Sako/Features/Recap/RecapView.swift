@@ -336,7 +336,7 @@ struct RecapView: View {
             HStack(spacing: 6) {
                 Image(systemName: "square.and.arrow.down")
                     .font(.system(size: 17))
-                Text("Unduh Rekapan")
+                Text("Download Rekapan")
                     .font(.system(size: 17))
             }
             .foregroundColor(.primary)
