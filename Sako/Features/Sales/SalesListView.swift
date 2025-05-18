@@ -60,6 +60,7 @@ struct SalesListView: View {
                 .datePickerStyle(.compact)
                 .labelsHidden()
                 .tint(.blue)
+                .environment(\.locale, Locale(identifier: "id_ID"))
 
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -81,7 +82,7 @@ struct SalesListView: View {
                     .font(.title2)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Total Penjualan")
+                    Text("Total Pendapatan")
                         .font(.headline)
                         .foregroundColor(.white)
                     
