@@ -661,6 +661,7 @@ struct RecapView: View {
 
     // Helper function to update widget data
     private func updateWidgetData() {
+        // Selalu update data widget dengan bulan yang dipilih
         WidgetDataManager.shared.updateWidgetWithRecapData(
             totalRevenue: totalRevenue,
             previousMonthRevenue: previousMonthRevenue,

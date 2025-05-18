@@ -8,6 +8,20 @@ struct MonthlyRevenue: Codable {
     let growth: Double
     let date: Date
     let previousAmount: Int
+    let isLatestMonth: Bool
+    
+    // Untuk backward compatibility
+    enum CodingKeys: String, CodingKey {
+        case amount, growth, date, previousAmount, isLatestMonth
+    }
+    
+    init(amount: Int, growth: Double, date: Date, previousAmount: Int = 0, isLatestMonth: Bool = false) {
+        self.amount = amount
+        self.growth = growth
+        self.date = date
+        self.previousAmount = previousAmount
+        self.isLatestMonth = isLatestMonth
+    }
 }
 
 class WidgetDataManager {
@@ -15,14 +29,15 @@ class WidgetDataManager {
     
     private let appGroupIdentifier = "group.ammarsufyan.Sako.sharedData"
     private let revenueKey = "monthlyRevenue"
+    private let currentMonthKey = "currentMonthRevenue"
     
     private init() {
-        // Akan diperbarui ketika RecapView muncul
+        // Inisialisasi kosong
     }
     
-    // Fungsi untuk memperbarui data widget dengan pendapatan bulanan terbaru
+    // Update the widget data with the latest monthly revenue
     func updateMonthlyRevenue(amount: Int, previousAmount: Int, date: Date) {
-        // Hitung persentase pertumbuhan
+        // Calculate growth percentage
         let growth: Double
         if previousAmount > 0 {
             growth = Double(amount - previousAmount) / Double(previousAmount) * 100
@@ -30,11 +45,16 @@ class WidgetDataManager {
             growth = 0
         }
         
+        // Tentukan apakah ini bulan saat ini
+        let isCurrentMonth = isDateCurrentMonth(date)
+        
+        // Create revenue model and save it
         let revenue = MonthlyRevenue(
             amount: amount, 
             growth: growth, 
             date: date,
-            previousAmount: previousAmount
+            previousAmount: previousAmount,
+            isLatestMonth: isCurrentMonth
         )
         
         do {
@@ -45,15 +65,50 @@ class WidgetDataManager {
                 return
             }
             
+            // Simpan data normal di revenueKey
             sharedDefaults.set(data, forKey: revenueKey)
+            
+            // Jika ini bulan saat ini, simpan juga di currentMonthKey
+            if isCurrentMonth {
+                sharedDefaults.set(data, forKey: currentMonthKey)
+            }
+            
             sharedDefaults.synchronize()
             
-            // Refresh widget
+            // Trigger widget refresh
             #if os(iOS)
             WidgetCenter.shared.reloadAllTimelines()
             #endif
         } catch {
             // Handle error silently
+        }
+    }
+    
+    // Cek apakah tanggal yang diberikan adalah bulan saat ini
+    private func isDateCurrentMonth(_ date: Date) -> Bool {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        let dateComponents = calendar.dateComponents([.year, .month], from: date)
+        let currentComponents = calendar.dateComponents([.year, .month], from: now)
+        
+        return dateComponents.year == currentComponents.year && 
+               dateComponents.month == currentComponents.month
+    }
+    
+    // Dapatkan data bulan terakhir (bulan saat ini)
+    func getCurrentMonthData() -> MonthlyRevenue? {
+        guard let sharedDefaults = UserDefaults(suiteName: appGroupIdentifier),
+              let data = sharedDefaults.data(forKey: currentMonthKey) else {
+            return nil
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            let revenue = try decoder.decode(MonthlyRevenue.self, from: data)
+            return revenue
+        } catch {
+            return nil
         }
     }
 }

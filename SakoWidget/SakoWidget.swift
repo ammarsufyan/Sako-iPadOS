@@ -15,17 +15,19 @@ struct MonthlyRevenue: Codable {
     let growth: Double
     let date: Date
     let previousAmount: Int
+    let isLatestMonth: Bool
     
     // Untuk backward compatibility
     enum CodingKeys: String, CodingKey {
-        case amount, growth, date, previousAmount
+        case amount, growth, date, previousAmount, isLatestMonth
     }
     
-    init(amount: Int, growth: Double, date: Date, previousAmount: Int = 0) {
+    init(amount: Int, growth: Double, date: Date, previousAmount: Int = 0, isLatestMonth: Bool = false) {
         self.amount = amount
         self.growth = growth
         self.date = date
         self.previousAmount = previousAmount
+        self.isLatestMonth = isLatestMonth
     }
     
     init(from decoder: Decoder) throws {
@@ -35,6 +37,8 @@ struct MonthlyRevenue: Codable {
         date = try container.decode(Date.self, forKey: .date)
         // Handle optional previousAmount for backward compatibility
         previousAmount = try container.decodeIfPresent(Int.self, forKey: .previousAmount) ?? 0
+        // Handle optional isLatestMonth for backward compatibility
+        isLatestMonth = try container.decodeIfPresent(Bool.self, forKey: .isLatestMonth) ?? false
     }
 }
 
@@ -42,6 +46,7 @@ struct Provider: AppIntentTimelineProvider {
     // App group identifier
     private let appGroupIdentifier = "group.ammarsufyan.Sako.sharedData"
     private let revenueKey = "monthlyRevenue"
+    private let currentMonthKey = "currentMonthRevenue"
     
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
@@ -68,27 +73,47 @@ struct Provider: AppIntentTimelineProvider {
             configuration: configuration
         )
         
-        // Update the widget every 15 minutes
+        // Update the widget every 5 seconds (for testing)
         let nextUpdate = Calendar.current.date(byAdding: .second, value: 5, to: Date())!
         return Timeline(entries: [entry], policy: .after(nextUpdate))
     }
     
     // Function to get revenue data from UserDefaults with fallback
     func getRevenueData() -> MonthlyRevenue {
-        // Try to get data from shared UserDefaults first
+        // Prioritas 1: Ambil data bulan saat ini
         if let sharedDefaults = UserDefaults(suiteName: appGroupIdentifier),
-           let data = sharedDefaults.data(forKey: revenueKey) {
+           let data = sharedDefaults.data(forKey: currentMonthKey) {
             do {
                 let decoder = JSONDecoder()
                 let revenue = try decoder.decode(MonthlyRevenue.self, from: data)
                 return revenue
             } catch {
-                // Fallback to default data
+                // Fallback ke prioritas berikutnya jika decode gagal
             }
         }
         
-        // Return current data as fallback
-        return MonthlyRevenue(amount: 2500000, growth: 0.0, date: Date(), previousAmount: 2500000)
+        // Prioritas 2: Ambil data normal dan filter hanya tampilkan yg isLatestMonth = true
+        if let sharedDefaults = UserDefaults(suiteName: appGroupIdentifier),
+           let data = sharedDefaults.data(forKey: revenueKey) {
+            do {
+                let decoder = JSONDecoder()
+                let revenue = try decoder.decode(MonthlyRevenue.self, from: data)
+                if revenue.isLatestMonth {
+                    return revenue
+                }
+            } catch {
+                // Fallback ke data default
+            }
+        }
+        
+        // Return data default jika tidak ada data atau bukan bulan terbaru
+        return MonthlyRevenue(
+            amount: 2500000, 
+            growth: 0.0, 
+            date: Date(), 
+            previousAmount: 2500000,
+            isLatestMonth: true
+        )
     }
 }
 
