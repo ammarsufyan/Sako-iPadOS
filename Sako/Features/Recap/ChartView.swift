@@ -46,7 +46,7 @@ struct LineChartView: View {
                     .opacity(0)
                     .annotation(position: .top, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
                         VStack(spacing: 2) {
-                            Text(item.week)
+                            Text("Pendapatan")
                                 .font(.system(size: 14, weight: .medium))
                             Text("Rp\(formatPrice(item.value))")
                                 .font(.system(size: 16, weight: .semibold))
@@ -136,7 +136,7 @@ struct BarChartView: View {
                     .opacity(0)
                     .annotation(position: .top, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
                         VStack(spacing: 2) {
-                            Text(item.week)
+                            Text("Pesanan")
                                 .font(.system(size: 14, weight: .medium))
                             Text("\(item.value)")
                                 .font(.system(size: 16, weight: .semibold))
