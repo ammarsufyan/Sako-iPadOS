@@ -262,8 +262,20 @@ struct RecapView: View {
         
         // Isi dengan data aktual jika ada
         for sale in sales {
-            let weekOfMonth = calendar.component(.weekOfMonth, from: sale.date)
-            let weekIndex = min(max(1, weekOfMonth), 4) // 1-4 only
+            // Menggunakan komponen hari dalam bulan untuk menentukan minggu secara manual
+            let dayOfMonth = calendar.component(.day, from: sale.date)
+            
+            // Mengelompokkan berdasarkan 7 hari per minggu, dengan hari 29+ masuk ke minggu 4
+            let weekIndex: Int
+            if dayOfMonth <= 7 {
+                weekIndex = 1        // Hari 1-7 = Minggu 1
+            } else if dayOfMonth <= 14 {
+                weekIndex = 2        // Hari 8-14 = Minggu 2
+            } else if dayOfMonth <= 21 {
+                weekIndex = 3        // Hari 15-21 = Minggu 3
+            } else {
+                weekIndex = 4        // Hari 22-31 = Minggu 4 (termasuk hari-hari dari "minggu 5")
+            }
             
             weeklyRevenue[weekIndex, default: 0] += sale.totalPrice
         }
@@ -283,8 +295,20 @@ struct RecapView: View {
         
         // Isi dengan data aktual jika ada
         for sale in sales {
-            let weekOfMonth = calendar.component(.weekOfMonth, from: sale.date)
-            let weekIndex = min(max(1, weekOfMonth), 4) // 1-4 only
+            // Menggunakan komponen hari dalam bulan untuk menentukan minggu secara manual
+            let dayOfMonth = calendar.component(.day, from: sale.date)
+            
+            // Mengelompokkan berdasarkan 7 hari per minggu, dengan hari 29+ masuk ke minggu 4
+            let weekIndex: Int
+            if dayOfMonth <= 7 {
+                weekIndex = 1        // Hari 1-7 = Minggu 1
+            } else if dayOfMonth <= 14 {
+                weekIndex = 2        // Hari 8-14 = Minggu 2
+            } else if dayOfMonth <= 21 {
+                weekIndex = 3        // Hari 15-21 = Minggu 3
+            } else {
+                weekIndex = 4        // Hari 22-31 = Minggu 4 (termasuk hari-hari dari "minggu 5")
+            }
             
             weeklyOrders[weekIndex, default: 0] += 1
         }
