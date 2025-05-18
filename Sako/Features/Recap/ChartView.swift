@@ -71,17 +71,15 @@ struct LineChartView: View {
                     
                     AxisValueLabel {
                         if intValue == 0 {
-                            Text("Rp 0")
-                        } else if intValue == 500000 {
-                            Text("Rp 500 ribu")
-                        } else if intValue == 1000000 {
-                            Text("Rp 1 juta")
-                        } else if intValue == 5000000 {
-                            Text("Rp 5 juta")
-                        } else if intValue == 10000000 {
-                            Text("Rp 10 juta")
+                            Text("Rp0")
+                        } else if intValue < 1_000_000 {
+                            // Untuk nilai di bawah 1 juta, bulatkan ke 100 ribu terdekat
+                            let roundedHundredThousands = (intValue + 50_000) / 100_000
+                            Text("Rp\(roundedHundredThousands * 100) Ribu")
                         } else {
-                            Text("Rp \(formatPrice(intValue))")
+                            // Untuk nilai 1 juta ke atas, bulatkan ke 1 juta terdekat
+                            let roundedMillions = (intValue + 500_000) / 1_000_000
+                            Text("Rp\(roundedMillions) Juta")
                         }
                     }
                     .foregroundStyle(Color.black)
