@@ -1,4 +1,4 @@
-# 📱 Sako-iPadOS
+# Sako-iPadOS
 
 **Sako-iPadOS** adalah aplikasi iPad yang dirancang untuk membantu pengguna dalam mengelola penjualan mereka dengan mudah dan efisien. Aplikasi ini memungkinkan pengguna untuk mencatat transaksi penjualan, memantau statistik penjualan bulanan, dan mengelola data produk dengan antarmuka yang intuitif dan responsif.
 
@@ -25,7 +25,9 @@
 
 ## 📸 Cuplikan Layar
 
-*Tambahkan gambar cuplikan layar aplikasi Anda di sini untuk memberikan gambaran visual kepada pengguna.*
+![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-05-18 at 22 35 55](https://github.com/user-attachments/assets/4ab408fc-2228-4fa9-8adf-6c914ab9fadc)
+
+![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-05-18 at 22 50 30](https://github.com/user-attachments/assets/33588cc4-c9b6-4113-91c2-a733854d0fae)
 
 ---
 
