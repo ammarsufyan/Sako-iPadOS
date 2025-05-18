@@ -320,13 +320,13 @@ struct RecapView: View {
             HStack(spacing: 8) {
                 Image(systemName: "calendar")
                     .font(.system(size: 17))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                 Text(formattedDate(selectedDate))
                     .font(.system(size: 17))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 17))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .rotationEffect(.degrees(isPresented ? 180 : 0))
             }
             .padding(.horizontal, 10)
@@ -354,8 +354,10 @@ struct RecapView: View {
             HStack(spacing: 6) {
                 Image(systemName: "square.and.arrow.down")
                     .font(.system(size: 17))
+                    .foregroundColor(.black)
                 Text("Download Rekapan")
                     .font(.system(size: 17))
+                    .foregroundColor(.black)
             }
             .foregroundColor(.primary)
             .padding(.horizontal, 10)
@@ -370,26 +372,27 @@ struct RecapView: View {
 
     // Card yang menampilkan informasi pendapatan
     private func RevenueCard() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Total Pendapatan Bulanan")
                 .font(.system(size: 17, weight: .bold))
-                .padding(.top, 4)
+                .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Rp\(formattedPrice(totalRevenue))")
                     .font(.system(size: 36, weight: .bold))
+                    .foregroundColor(.black)
                 
                 let difference = abs(totalRevenue - previousMonthRevenue)
-                Text("Rp\(formattedPrice(difference)) (\(isRevenueGrowthPositive ? "↑" : "↓")\(String(format: "%.1f", abs(revenueGrowth)))%)")
+                Text("\(isRevenueGrowthPositive ? "↑" : "↓")Rp\(formattedPrice(difference))(\(isRevenueGrowthPositive ? "+" : "-")\(String(format: "%.1f", abs(revenueGrowth)))%)")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(isRevenueGrowthPositive ? .green : .red)
             }
-            .padding(.bottom, 6)
             
             // Grafik garis untuk pendapatan mingguan
             LineChartView(data: weeklyRevenueData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
+                .padding(.top, 16)
                 .padding(.bottom, 8)
         }
         .padding(20)
@@ -403,17 +406,18 @@ struct RecapView: View {
     
     // Card yang menampilkan informasi jumlah pesanan
     private func OrdersCard() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Total Pesanan Bulanan")
                 .font(.system(size: 17, weight: .bold))
-                .padding(.top, 4)
+                .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("\(totalOrders)")
                     .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(.black)
                 
                 let difference = abs(totalOrders - previousMonthOrders)
-                Text("\(difference) (\(isOrdersGrowthPositive ? "↑" : "↓")\(String(format: "%.1f", abs(ordersGrowth)))%)")
+                Text("\(isOrdersGrowthPositive ? "↑" : "↓")\(difference)(\(isOrdersGrowthPositive ? "+" : "-")\(String(format: "%.1f", abs(ordersGrowth)))%)")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(isOrdersGrowthPositive ? .green : .red)
             }
@@ -423,6 +427,7 @@ struct RecapView: View {
             BarChartView(data: weeklyOrdersData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
+                .padding(.top, 16)
                 .padding(.bottom, 8)
         }
         .padding(20)
@@ -551,9 +556,9 @@ struct RecapView: View {
         .padding(.vertical)
         .background(
             RoundedRectangle(cornerRadius: 8)
+                .fill(.white)
                 .stroke(Color.gray.opacity(0.4))
         )
-        .background(.white)
         .frame(maxWidth: .infinity, maxHeight: 352)
     }
 

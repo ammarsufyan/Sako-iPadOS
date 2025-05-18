@@ -25,7 +25,7 @@ struct LineChartView: View {
                     x: .value("Minggu", item.week),
                     y: .value("Nilai", item.value)
                 )
-                .foregroundStyle(Color.green.gradient)
+                .foregroundStyle(Color.green)
                 .lineStyle(StrokeStyle(lineWidth: 2))
                 .opacity(selectedWeek == nil || item.week == selectedWeekData?.week ? 1 : 0.3)
                 
@@ -84,7 +84,7 @@ struct LineChartView: View {
                             Text("Rp \(formatPrice(intValue))")
                         }
                     }
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.black)
                 }
             }
         }
@@ -93,7 +93,7 @@ struct LineChartView: View {
                 AxisGridLine()
                     .foregroundStyle(Color.gray.opacity(0.5))
                 AxisValueLabel()
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.black)
             }
         }
         .frame(height: 150)
@@ -125,7 +125,7 @@ struct BarChartView: View {
                     x: .value("Minggu", item.week),
                     y: .value("Nilai", item.value)
                 )
-                .foregroundStyle(Color.green.gradient)
+                .foregroundStyle(Color.green)
                 .lineStyle(StrokeStyle(lineWidth: 2))
                 .opacity(selectedWeek == nil || item.week == selectedWeekData?.week ? 1 : 0.3)
                 
@@ -160,7 +160,7 @@ struct BarChartView: View {
                 AxisGridLine()
                     .foregroundStyle(Color.gray.opacity(0.5))
                 AxisValueLabel()
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.black)
             }
         }
         .chartXAxis {
@@ -168,7 +168,7 @@ struct BarChartView: View {
                 AxisGridLine()
                     .foregroundStyle(Color.gray.opacity(0.5))
                 AxisValueLabel()
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.black)
             }
         }
         .frame(height: 150)
