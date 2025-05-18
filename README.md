@@ -1,31 +1,60 @@
-# 🧾 Sako – Sistem Kantin Offline
+# 📱 Sako-iPadOS
 
-**Sako** adalah aplikasi iPadOS yang membantu mencatat transaksi penjualan di kantin secara **offline**. Dirancang khusus untuk kemudahan dan efisiensi tanpa bergantung pada koneksi internet.
+**Sako-iPadOS** adalah aplikasi iPad yang dirancang untuk membantu pengguna dalam mengelola penjualan mereka dengan mudah dan efisien. Aplikasi ini memungkinkan pengguna untuk mencatat transaksi penjualan, memantau statistik penjualan bulanan, dan mengelola data produk dengan antarmuka yang intuitif dan responsif.
 
-<img src="https://github.com/user-attachments/assets/9e2d4e3c-6bba-4d01-9ef6-0bf78df49665" width="250px" alt="Sako Logo">
+---
 
-## ✨ Fitur Unggulan
+## ✨ Fitur Utama
 
-- 📊 **Pencatatan Penjualan Harian**  
-  Tambah transaksi dengan cepat dan akurat, lengkap dengan detail produk & jumlah penjualan.
+- **Pencatatan Penjualan**: Tambahkan dan kelola transaksi penjualan dengan detail produk dan harga.
+- **Statistik Penjualan**: Visualisasi data penjualan mingguan dalam bentuk grafik garis dan batang.
+- **Pencarian Produk**: Cari transaksi berdasarkan nama produk untuk kemudahan akses.
+- **Filter Tanggal**: Pilih tanggal tertentu untuk melihat transaksi yang terjadi pada hari tersebut.
+- **Antarmuka Pengguna Modern**: Desain UI yang bersih dan responsif.
 
-- 📅 **Rekap Bulanan Otomatis**  
-  Pantau performa penjualan tiap bulan dalam tampilan yang ringkas dan informatif.
+---
 
-- 💾 **Data Lokal (100% Offline)**  
-  Semua data disimpan langsung di perangkat. Tidak butuh koneksi internet.
+## 🛠️ Teknologi yang Digunakan
 
-- 🔍 **Pencarian & Filter Cerdas**  
-  Temukan transaksi atau produk dengan cepat menggunakan fitur pencarian dan filter berdasarkan tanggal.
+- **Swift**: Bahasa pemrograman utama untuk pengembangan aplikasi iOS.
+- **SwiftUI**: Framework deklaratif untuk membangun antarmuka pengguna.
+- **SwiftData**: Untuk manajemen data lokal dan persistensi.
+- **Charts**: Untuk menampilkan grafik statistik penjualan.
 
-## 📸 Tampilan Aplikasi
+---
 
-<img src="https://github.com/user-attachments/assets/fa6cdf79-481d-475f-acf0-234790ffb496" alt="Sako App Screenshot" />
+## 📸 Cuplikan Layar
 
-## 🚀 Teknologi
+*Tambahkan gambar cuplikan layar aplikasi Anda di sini untuk memberikan gambaran visual kepada pengguna.*
 
-- Swift
-- SwiftUI
-- SwiftData
+---
 
-Ditingkatkan oleh Ammar Sufyan dari **Team 5 – Morning**:
+## 🚀 Instalasi
+
+1. **Clone repositori ini**:
+
+   ```bash
+   git clone https://github.com/ammarsufyan/Sako-iPadOS.git
+   ```
+
+2. **Buka proyek dengan Xcode**:
+
+   ```bash
+   cd Sako-iPadOS
+   open Sako-iPadOS.xcodeproj
+   ```
+
+3. **Bangun dan jalankan aplikasi** di simulator iPad atau perangkat fisik.
+
+---
+
+## ✅ Persyaratan
+
+- **Xcode 16.0** atau lebih baru.
+- **iOS 18.0** atau lebih baru.
+
+---
+
+## 📬 Kontak
+
+Dikembangkan oleh [Ammar Sufyan](https://github.com/ammarsufyan) - Team 5. 
