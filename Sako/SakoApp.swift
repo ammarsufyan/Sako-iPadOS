@@ -4,6 +4,12 @@ import TipKit
 
 @main
 struct SakoApp: App {
+    // Initialize WidgetDataManager when the app starts
+    init() {
+        // Initialize WidgetDataManager
+        _ = WidgetDataManager.shared
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Products.self,

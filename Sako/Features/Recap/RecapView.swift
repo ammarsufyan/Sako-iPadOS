@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import Charts
+import Foundation
 
 struct RecapView: View {
     // MARK: - State variables untuk mengontrol UI dan interaksi
@@ -229,6 +230,14 @@ struct RecapView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text("Gagal membuat PDF. Silakan coba lagi.")
+        }
+        .onAppear {
+            // Update widget data when view appears
+            updateWidgetData()
+        }
+        .onChange(of: selectedDate) { _, _ in
+            // Update widget data when selected date changes
+            updateWidgetData()
         }
     }
 
@@ -639,6 +648,26 @@ struct RecapView: View {
         formatter.numberStyle = .decimal
         formatter.groupingSeparator = "."
         return formatter.string(from: NSNumber(value: value)) ?? "0"
+    }
+
+    // Add initialization and viewDidLoad-like behavior
+    init() {
+        // Force an initial update of widget data when the app launches
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            // Create an instance of WidgetDataManager to trigger the initialization
+            _ = WidgetDataManager.shared
+        }
+    }
+
+    // Helper function to update widget data
+    private func updateWidgetData() {
+        print("RecapView: Updating widget data with totalRevenue: \(totalRevenue), previousMonthRevenue: \(previousMonthRevenue)")
+        
+        WidgetDataManager.shared.updateWidgetWithRecapData(
+            totalRevenue: totalRevenue,
+            previousMonthRevenue: previousMonthRevenue,
+            date: selectedDate
+        )
     }
 }
 
