@@ -19,7 +19,7 @@
 - **Swift**: Bahasa pemrograman utama untuk pengembangan aplikasi iOS.
 - **SwiftUI**: Framework deklaratif untuk membangun antarmuka pengguna.
 - **SwiftData**: Untuk manajemen data lokal dan persistensi.
-- **Charts**: Untuk menampilkan grafik statistik penjualan.
+- **SwiftCharts**: Untuk menampilkan grafik statistik penjualan.
 
 ---
 
