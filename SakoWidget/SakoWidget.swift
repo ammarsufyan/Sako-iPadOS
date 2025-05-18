@@ -73,8 +73,8 @@ struct Provider: AppIntentTimelineProvider {
             configuration: configuration
         )
         
-        // Update the widget every 5 seconds (for testing)
-        let nextUpdate = Calendar.current.date(byAdding: .second, value: 5, to: Date())!
+        // Update the widget every 30 minutes
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 30, to: Date())!
         return Timeline(entries: [entry], policy: .after(nextUpdate))
     }
     
@@ -108,10 +108,10 @@ struct Provider: AppIntentTimelineProvider {
         
         // Return data default jika tidak ada data atau bukan bulan terbaru
         return MonthlyRevenue(
-            amount: 2500000, 
-            growth: 0.0, 
+            amount: 0,
+            growth: 0.0,
             date: Date(), 
-            previousAmount: 2500000,
+            previousAmount: 0,
             isLatestMonth: true
         )
     }
