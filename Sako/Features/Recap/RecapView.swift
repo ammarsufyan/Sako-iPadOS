@@ -341,10 +341,8 @@ struct RecapView: View {
             VStack {
                 MonthYearPicker(selectedDate: $selectedDate)
                     .frame(width: 300, height: 200)
-                    .presentationCompactAdaptation(.popover)
             }
             .padding()
-            .presentationCompactAdaptation(.popover)
         }
     }
     
@@ -580,7 +578,6 @@ struct RecapView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                 
-                // Konten
                 VStack(spacing: 20) {
                     // Baris dengan card pendapatan dan pesanan
                     HStack(spacing: 20) {
