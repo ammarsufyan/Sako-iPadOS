@@ -72,8 +72,11 @@ struct LineChartView: View {
                     AxisValueLabel {
                         if intValue == 0 {
                             Text("Rp0")
+                        } else if intValue < 100_000 {
+                            // Untuk nilai di bawah 100 ribu, tampilkan apa adanya
+                            Text("Rp\(intValue / 1000) Ribu")
                         } else if intValue < 1_000_000 {
-                            // Untuk nilai di bawah 1 juta, bulatkan ke 100 ribu terdekat
+                            // Untuk nilai 100 ribu - 1 juta, bulatkan ke 100 ribu terdekat
                             let roundedHundredThousands = (intValue + 50_000) / 100_000
                             Text("Rp\(roundedHundredThousands * 100) Ribu")
                         } else {
