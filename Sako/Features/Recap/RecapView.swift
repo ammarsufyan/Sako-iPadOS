@@ -3,22 +3,24 @@ import SwiftData
 import Charts
 
 struct RecapView: View {
-    @State private var selectedDate = Date()
-    @State private var isPresented = false
-    @State private var showShareSheet = false
-    @State private var pdfData: Data?
-    @State private var isGeneratingPDF = false
-    @State private var showAlert = false
-    @State private var isExportingPDF = false
-    @Environment(\.modelContext) private var modelContext
+    // MARK: - State variables untuk mengontrol UI dan interaksi
+    @State private var selectedDate = Date() 
+    @State private var isPresented = false  
+    @State private var showShareSheet = false 
+    @State private var pdfData: Data?        
+    @State private var isGeneratingPDF = false 
+    @State private var showAlert = false     
+    @State private var isExportingPDF = false 
     
-    // Reference untuk container view yang akan di-capture
-    @State private var viewContainer: UIView?
-    
+    // MARK: - Environment
+    @Environment(\.modelContext) private var modelContext 
+
     // Query data transaksi dari SwiftData
-    @Query private var allSales: [Sales]
+    @Query(sort: \Sales.date) private var allSales: [Sales]
     
-    // Computed properties untuk mendapatkan data berdasarkan bulan yang dipilih
+    // MARK: - Data Filtering dan Kalkulasi
+    
+    // Mendapatkan daftar transaksi sesuai bulan yang dipilih
     private var filteredSales: [Sales] {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month], from: selectedDate)
@@ -34,7 +36,7 @@ struct RecapView: View {
         }
     }
     
-    // Computed property untuk data bulan sebelumnya
+    // Mendapatkan daftar transaksi dari bulan sebelumnya (untuk perbandingan)
     private var previousMonthSales: [Sales] {
         let calendar = Calendar.current
         guard let previousMonth = calendar.date(byAdding: .month, value: -1, to: selectedDate) else {
@@ -49,46 +51,53 @@ struct RecapView: View {
         }
     }
     
-    // Computed property untuk total penjualan
+    // Menghitung total pendapatan bulan yang dipilih
     private var totalRevenue: Int {
         return filteredSales.reduce(0) { $0 + $1.totalPrice }
     }
     
-    // Computed property untuk total penjualan bulan sebelumnya
+    // Menghitung total pendapatan bulan sebelumnya
     private var previousMonthRevenue: Int {
         return previousMonthSales.reduce(0) { $0 + $1.totalPrice }
     }
     
-    // Computed property untuk total pesanan
+    // Menghitung total jumlah pesanan bulan yang dipilih
     private var totalOrders: Int {
         return filteredSales.count
     }
     
-    // Computed property untuk total pesanan bulan sebelumnya
+    // Menghitung total jumlah pesanan bulan sebelumnya
     private var previousMonthOrders: Int {
         return previousMonthSales.count
     }
     
-    // Computed properties untuk perhitungan pertumbuhan
+    // MARK: - Perhitungan Pertumbuhan
+    
+    // Persentase pertumbuhan pendapatan dibanding bulan lalu
     private var revenueGrowth: Double {
         guard previousMonthRevenue > 0 else { return 0 }
         return Double(totalRevenue - previousMonthRevenue) / Double(previousMonthRevenue) * 100
     }
     
+    // Persentase pertumbuhan jumlah pesanan dibanding bulan lalu
     private var ordersGrowth: Double {
         guard previousMonthOrders > 0 else { return 0 }
         return Double(totalOrders - previousMonthOrders) / Double(previousMonthOrders) * 100
     }
     
+    // Apakah pertumbuhan pendapatan positif atau negatif
     private var isRevenueGrowthPositive: Bool {
         return revenueGrowth >= 0
     }
     
+    // Apakah pertumbuhan jumlah pesanan positif atau negatif 
     private var isOrdersGrowthPositive: Bool {
         return ordersGrowth >= 0
     }
     
-    // Computed property untuk data pendapatan mingguan
+    // MARK: - Data untuk Charts
+    
+    // Menyiapkan data pendapatan mingguan untuk chart
     private var weeklyRevenueData: [WeeklyData] {
         let weeklyData = groupSalesByWeek(filteredSales)
         
@@ -98,7 +107,7 @@ struct RecapView: View {
         }
     }
     
-    // Computed property untuk data pesanan mingguan
+    // Menyiapkan data pesanan mingguan untuk chart
     private var weeklyOrdersData: [WeeklyData] {
         let weeklyData = groupOrdersByWeek(filteredSales)
         
@@ -108,7 +117,9 @@ struct RecapView: View {
         }
     }
     
-    // Computed property untuk produk terlaris
+    // MARK: - Produk Terlaris
+    
+    // Menghitung dan menyusun data produk terlaris berdasarkan nilai penjualan
     private var topProducts: [TopProduct] {
         // Dictionary untuk menghitung jumlah terjual per produk
         var productSales: [UUID: (name: String, sales: Int, quantity: Int)] = [:]
@@ -122,12 +133,14 @@ struct RecapView: View {
                 let itemQuantity = item.quantity
                 
                 if let existing = productSales[productId] {
+                    // Update nilai jika produk sudah ada dalam perhitungan
                     productSales[productId] = (
                         name: existing.name,
                         sales: existing.sales + itemPrice,
                         quantity: existing.quantity + itemQuantity
                     )
                 } else {
+                    // Tambahkan produk baru ke perhitungan
                     productSales[productId] = (
                         name: productName,
                         sales: itemPrice,
@@ -137,10 +150,11 @@ struct RecapView: View {
             }
         }
         
-        // Sort dan ambil 10 teratas
+        // Urutkan berdasarkan nilai penjualan dan ambil 10 teratas
         let sorted = productSales.values.sorted { $0.sales > $1.sales }
         let topTen = sorted.prefix(10)
         
+        // Konversi ke model TopProduct untuk UI
         return topTen.enumerated().map { index, product in
             TopProduct(
                 rank: index + 1, 
@@ -151,57 +165,31 @@ struct RecapView: View {
         }
     }
     
-    init() {
-        // Initialize query untuk mengambil semua transaksi
-        let currentDate = Date()
-        let calendar = Calendar.current
-        let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: currentDate))!
-        
-        let predicate = #Predicate<Sales> { sale in
-            sale.date >= startOfYear
-        }
-        
-        _allSales = Query(filter: predicate, sort: \Sales.date)
-    }
-
+    // MARK: - Body View
+    
     var body: some View {
         ZStack {
-            // Main content without controls when exporting
             VStack(spacing: 30) {
-                // Only show header when not exporting
-                if !isExportingPDF {
-                    HStack {
-                        DatePickerButton()
-                        Spacer()
-                        DownloadButton()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
-                    .zIndex(isPresented ? 101 : 1)
-                } else {
-                    // Title for PDF
-                    HStack {
-                        Text(formattedDate(selectedDate))
-                            .font(.headline)
-                        Spacer()
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 10)
+                HStack {
+                    DatePickerButton()
+                    Spacer()
+                    DownloadButton()
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
                 
                 ScrollView {
                     VStack(spacing: 30) {
-                        // Row with revenue and orders cards
                         HStack(spacing: 30) {
-                            // Revenue Card
+                            // Card Pendapatan
                             RevenueCard()
                             
-                            // Orders Card
+                            // Card Pesanan
                             OrdersCard()
                         }
                         .padding(.horizontal, 20)
                         
-                        // Top Products Card
+                        // Card Produk Terlaris
                         TopProductsCard()
                             .padding(.horizontal, 20)
                     }
@@ -209,12 +197,10 @@ struct RecapView: View {
                 }
             }
             .background(Color(.systemGray6))
-            .background(ViewCaptureRepresentable(viewContainer: $viewContainer))
             
-            // Overlays only when not exporting and specific conditions are met
+            // Overlay untuk latar belakang gelap saat date picker ditampilkan
             if !isExportingPDF {
                 if isPresented {
-                    // Dimming overlay when date picker is showing
                     Rectangle()
                         .fill(Color.black.opacity(0.3))
                         .edgesIgnoringSafeArea(.all)
@@ -227,17 +213,13 @@ struct RecapView: View {
                 }
             }
             
-            // Loading indicator shown OVER the UI and ONLY during generation
-            // This ensures it doesn't get captured in the PDF
+            // Indikator loading ditampilkan HANYA saat generate PDF
             if isGeneratingPDF {
                 LoadingOverlay()
                     .zIndex(200)
             }
         }
         .animation(.easeInOut, value: isPresented)
-        .onChange(of: selectedDate) { _, _ in
-            // Refresh data when date changes
-        }
         .sheet(isPresented: $showShareSheet) {
             if let pdfData = pdfData {
                 PDFShareSheet(pdf: pdfData, subject: "Rekapan \(formattedDate(selectedDate))")
@@ -250,17 +232,24 @@ struct RecapView: View {
         }
     }
 
-    // Function untuk grup transaksi berdasarkan minggu dalam bulan
+    // MARK: - Fungsi Pengelompokan Data
+    
+    // Mengelompokkan pendapatan berdasarkan minggu dalam bulan
+    // Satu bulan dibagi menjadi 4 minggu berdasarkan tanggal:
+    // Minggu 1: tanggal 1-7
+    // Minggu 2: tanggal 8-14
+    // Minggu 3: tanggal 15-21
+    // Minggu 4: tanggal 22-31 (termasuk semua hari tersisa)
     private func groupSalesByWeek(_ sales: [Sales]) -> [Int: Int] {
         let calendar = Calendar.current
         var weeklyRevenue: [Int: Int] = [:]
         
-        // Isi default 0 untuk semua minggu
+        // Inisialisasi semua minggu dengan nilai 0
         for weekIndex in 1...4 {
             weeklyRevenue[weekIndex] = 0
         }
         
-        // Isi dengan data aktual jika ada
+        // Isi dengan data aktual dari setiap transaksi
         for sale in sales {
             // Menggunakan komponen hari dalam bulan untuk menentukan minggu secara manual
             let dayOfMonth = calendar.component(.day, from: sale.date)
@@ -277,23 +266,25 @@ struct RecapView: View {
                 weekIndex = 4        // Hari 22-31 = Minggu 4 (termasuk hari-hari dari "minggu 5")
             }
             
+            // Tambahkan nilai transaksi ke minggu yang sesuai
             weeklyRevenue[weekIndex, default: 0] += sale.totalPrice
         }
         
         return weeklyRevenue
     }
     
-    // Function untuk grup jumlah order berdasarkan minggu dalam bulan
+    // Mengelompokkan jumlah pesanan berdasarkan minggu dalam bulan
+    // Menggunakan pendekatan yang sama dengan pendapatan, tapi menambahkan jumlah (bukan nilai)
     private func groupOrdersByWeek(_ sales: [Sales]) -> [Int: Int] {
         let calendar = Calendar.current
         var weeklyOrders: [Int: Int] = [:]
         
-        // Isi default 0 untuk semua minggu
+        // Inisialisasi semua minggu dengan nilai 0
         for weekIndex in 1...4 {
             weeklyOrders[weekIndex] = 0
         }
         
-        // Isi dengan data aktual jika ada
+        // Isi dengan data aktual dari setiap transaksi
         for sale in sales {
             // Menggunakan komponen hari dalam bulan untuk menentukan minggu secara manual
             let dayOfMonth = calendar.component(.day, from: sale.date)
@@ -310,12 +301,16 @@ struct RecapView: View {
                 weekIndex = 4        // Hari 22-31 = Minggu 4 (termasuk hari-hari dari "minggu 5")
             }
             
+            // Tambahkan 1 pesanan ke minggu yang sesuai
             weeklyOrders[weekIndex, default: 0] += 1
         }
         
         return weeklyOrders
     }
 
+    // MARK: - Komponen UI
+    
+    // Tombol untuk memilih tanggal
     private func DatePickerButton() -> some View {
         Button(action: {
             withAnimation {
@@ -353,6 +348,7 @@ struct RecapView: View {
         }
     }
     
+    // Tombol untuk mengunduh rekapan sebagai PDF
     private func DownloadButton() -> some View {
         Button(action: {
             exportToPDF()
@@ -374,6 +370,7 @@ struct RecapView: View {
         }
     }
 
+    // Card yang menampilkan informasi pendapatan
     private func RevenueCard() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Total Pendapatan Bulanan")
@@ -391,7 +388,7 @@ struct RecapView: View {
             }
             .padding(.bottom, 6)
             
-            // Line chart untuk pendapatan
+            // Grafik garis untuk pendapatan mingguan
             LineChartView(data: weeklyRevenueData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
@@ -406,6 +403,7 @@ struct RecapView: View {
         .frame(maxWidth: .infinity, maxHeight: 344)
     }
     
+    // Card yang menampilkan informasi jumlah pesanan
     private func OrdersCard() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Total Pesanan Bulanan")
@@ -423,7 +421,7 @@ struct RecapView: View {
             }
             .padding(.bottom, 6)
             
-            // Bar chart untuk pesanan
+            // Grafik batang untuk jumlah pesanan mingguan
             BarChartView(data: weeklyOrdersData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
@@ -438,6 +436,9 @@ struct RecapView: View {
         .frame(maxWidth: .infinity, maxHeight: 344)
     }
     
+    // MARK: - Card Produk Terlaris
+    
+    // Card yang menampilkan daftar produk terlaris
     private func TopProductsCard() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Produk Terlaris Bulanan")
@@ -445,14 +446,16 @@ struct RecapView: View {
                 .padding(.horizontal)
             
             if topProducts.isEmpty {
+                // Tampilkan pesan jika tidak ada penjualan
                 Text("Belum ada penjualan di bulan ini")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.vertical, 30)
             } else {
+                // Tampilkan daftar produk terlaris dalam dua kolom
                 HStack(alignment: .top, spacing: 0) {
-                    // Menghitung jumlah produk untuk kolom kiri
+                    // Hitung jumlah produk untuk kolom kiri
                     // Jika total produk ganjil, kolom kiri mendapat 1 produk lebih banyak
                     let leftCount = (topProducts.count + 1) / 2
                     
@@ -495,7 +498,7 @@ struct RecapView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    // Divider tengah selalu muncul
+                    // Garis pemisah tengah
                     Divider()
                     
                     // Kolom kanan
@@ -535,7 +538,7 @@ struct RecapView: View {
                                 }
                             }
                         } else {
-                            // Placeholder kosong untuk kolom kanan jika tidak ada produk
+                            // Tampilkan placeholder jika tidak ada produk di kolom kanan
                             Text("Belum ada produk lainnya")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
@@ -556,49 +559,51 @@ struct RecapView: View {
         .frame(maxWidth: .infinity, maxHeight: 352)
     }
 
+    // MARK: - Ekspor PDF
+    
+    // Fungsi untuk mengekspor tampilan sebagai PDF
     private func exportToPDF() {
-        // Set flags but DON'T generate PDF yet - just prepare the view
+        // Set flags untuk persiapan tampilan ekspor
         isGeneratingPDF = true
         isExportingPDF = true
         
-        // Using a longer delay to ensure view is fully updated without loading overlay
+        // Tunda pembuatan PDF untuk memastikan tampilan sudah diperbarui
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            // At this point the view should be updated with isExportingPDF = true
-            // Now create a completely separate view just for export
-            let printableView = VStack(spacing: 20) {
-                // Title
+            // Buat tampilan terpisah khusus untuk ekspor
+            let printableView = VStack(spacing: 30) {
+                // Judul
                 HStack {
                     Text(self.formattedDate(self.selectedDate))
-                        .font(.headline)
+                        .font(.system(size: 28, weight: .bold))
                     Spacer()
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
                 
-                // Content
+                // Konten
                 VStack(spacing: 20) {
-                    // Row with revenue and orders cards
+                    // Baris dengan card pendapatan dan pesanan
                     HStack(spacing: 20) {
-                        // Revenue Card
+                        // Card Pendapatan
                         self.RevenueCard()
                         
-                        // Orders Card
+                        // Card Pesanan
                         self.OrdersCard()
                     }
                     .padding(.horizontal, 20)
                     
-                    // Top Products Card
+                    // Card Produk Terlaris
                     self.TopProductsCard()
-                        .padding(.horizontal, 20)
+                    .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 20)
             }
-            .frame(width: 1000) // Extra wide for better layout
+            .frame(width: 1000) // Lebar ekstra untuk tata letak yang lebih baik
             .padding(.horizontal, 40)
             .padding(.vertical, 30)
             .background(Color.white)
             
-            // Now generate PDF from this clean, separate view
+            // Generate PDF menggunakan RecapExporter
             RecapExporter.exportRecapToPDF(content: printableView, width: 1080) { result in
                 DispatchQueue.main.async {
                     self.isGeneratingPDF = false
@@ -616,6 +621,9 @@ struct RecapView: View {
         }
     }
 
+    // MARK: - Helpers
+    
+    // Format tanggal menjadi "Bulan Tahun" dalam Bahasa Indonesia
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "id_ID")
@@ -623,6 +631,7 @@ struct RecapView: View {
         return formatter.string(from: date).capitalized
     }
 
+    // Format angka menjadi format ribuan dengan pemisah titik
     private func formattedPrice(_ value: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -634,10 +643,10 @@ struct RecapView: View {
 // Model data untuk produk terlaris
 struct TopProduct: Identifiable {
     let id = UUID()
-    let rank: Int
-    let name: String
-    let sales: Int
-    let quantity: Int
+    let rank: Int        // Peringkat produk (1, 2, 3, dst)
+    let name: String     // Nama produk
+    let sales: Int       // Total nilai penjualan (Rupiah)
+    let quantity: Int    // Jumlah unit terjual
 }
 
 #Preview {

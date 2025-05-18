@@ -40,10 +40,10 @@ struct LineChartView: View {
                 // Annotation for selected point
                 if let selectedData = selectedWeekData, selectedData.week == item.week {
                     PointMark(
-                        x: .value("Selected Week", item.week),
-                        y: .value("Selected Value", item.value)
+                        x: .value("Minggu", item.week),
+                        y: .value("Nilai", item.value)
                     )
-                    .opacity(0) // Invisible marker
+                    .opacity(0)
                     .annotation(position: .top, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
                         VStack(spacing: 2) {
                             Text(item.week)
@@ -129,21 +129,13 @@ struct BarChartView: View {
                 .lineStyle(StrokeStyle(lineWidth: 2))
                 .opacity(selectedWeek == nil || item.week == selectedWeekData?.week ? 1 : 0.3)
                 
-                PointMark(
-                    x: .value("Minggu", item.week),
-                    y: .value("Nilai", item.value)
-                )
-                .foregroundStyle(Color.green)
-                .symbolSize(0)
-                .opacity(selectedWeek == nil || item.week == selectedWeekData?.week ? 1 : 0.3)
-                
                 // Annotation for selected bar
                 if let selectedData = selectedWeekData, selectedData.week == item.week {
                     PointMark(
-                        x: .value("Selected Week", item.week),
-                        y: .value("Selected Value", item.value)
+                        x: .value("Minggu", item.week),
+                        y: .value("Nilai", item.value)
                     )
-                    .opacity(0) // Invisible marker
+                    .opacity(0)
                     .annotation(position: .top, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
                         VStack(spacing: 2) {
                             Text(item.week)

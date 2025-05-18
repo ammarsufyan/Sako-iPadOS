@@ -27,7 +27,7 @@ class RecapExporter {
     ) {
         // Render dengan delay kecil untuk memberikan waktu UI diupdate
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            // Pastikan viewport ukuran yang diinginkan
+            // Ukuran view port
             let exportView = content
                 .frame(width: width)
                 .padding(.top, 20)
@@ -147,7 +147,7 @@ struct LoadingOverlay: View {
     }
 }
 
-// Define the error struct at file level
+// Error struct untuk PDF generation
 struct PDFGenerationError: Error {
     let message = "Gagal membuat file PDF"
 }
