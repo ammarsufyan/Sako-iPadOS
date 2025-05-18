@@ -9,6 +9,10 @@ struct MonthYearPicker: UIViewControllerRepresentable {
 
         picker.datePickerMode = .yearAndMonth
         picker.preferredDatePickerStyle = .wheels
+        
+        // Menonaktifkan tanggal masa depan
+        picker.maximumDate = Date()
+        
         picker.addTarget(context.coordinator, action: #selector(Coordinator.dateChanged(_:)), for: .valueChanged)
         picker.date = selectedDate
 
