@@ -6,7 +6,40 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		85F610CD2DDA48F500182948 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F610CC2DDA48F500182948 /* WidgetKit.framework */; };
+		85F610CF2DDA48F500182948 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F610CE2DDA48F500182948 /* SwiftUI.framework */; };
+		85F610DC2DDA48F600182948 /* SakoWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 85F610CA2DDA48F500182948 /* SakoWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		85F610DA2DDA48F600182948 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85A0572E2D9382F100508FD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 85F610C92DDA48F500182948;
+			remoteInfo = SakoWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		85F610DD2DDA48F600182948 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				85F610DC2DDA48F600182948 /* SakoWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		85F610CA2DDA48F500182948 /* SakoWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SakoWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		85F610CC2DDA48F500182948 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		85F610CE2DDA48F500182948 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		85F72CFD2DA252D000C7818C /* Sako.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sako.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B636DF992D98670B00CADAD2 /* Sako.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Sako.xcodeproj; sourceTree = "<group>"; };
 		B666F83A2D9BA62A0075A180 /* Sako.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Sako.xcodeproj; sourceTree = "<group>"; };
@@ -16,10 +49,28 @@
 		B6F9C2F52D9FCCEB00758DEA /* Sako.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Sako.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		85F610E02DDA48F600182948 /* Exceptions for "SakoWidget" folder in "SakoWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 85F610C92DDA48F500182948 /* SakoWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		85A057382D9382F100508FD7 /* Sako */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Sako;
+			sourceTree = "<group>";
+		};
+		85F610D02DDA48F500182948 /* SakoWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				85F610E02DDA48F600182948 /* Exceptions for "SakoWidget" folder in "SakoWidgetExtension" target */,
+			);
+			path = SakoWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +83,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		85F610C72DDA48F500182948 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85F610CF2DDA48F500182948 /* SwiftUI.framework in Frameworks */,
+				85F610CD2DDA48F500182948 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,7 +100,19 @@
 			children = (
 				85A057382D9382F100508FD7 /* Sako */,
 				85F72CFD2DA252D000C7818C /* Sako.app */,
+				85F610CA2DDA48F500182948 /* SakoWidgetExtension.appex */,
+				85F610D02DDA48F500182948 /* SakoWidget */,
+				85F610CB2DDA48F500182948 /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		85F610CB2DDA48F500182948 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				85F610CC2DDA48F500182948 /* WidgetKit.framework */,
+				85F610CE2DDA48F500182948 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B636DF9C2D98670B00CADAD2 /* Products */ = {
@@ -83,10 +155,12 @@
 				85A057322D9382F100508FD7 /* Sources */,
 				85A057332D9382F100508FD7 /* Frameworks */,
 				85A057342D9382F100508FD7 /* Resources */,
+				85F610DD2DDA48F600182948 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				85F610DB2DDA48F600182948 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				85A057382D9382F100508FD7 /* Sako */,
@@ -98,6 +172,28 @@
 			productReference = 85F72CFD2DA252D000C7818C /* Sako.app */;
 			productType = "com.apple.product-type.application";
 		};
+		85F610C92DDA48F500182948 /* SakoWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85F610E12DDA48F600182948 /* Build configuration list for PBXNativeTarget "SakoWidgetExtension" */;
+			buildPhases = (
+				85F610C62DDA48F500182948 /* Sources */,
+				85F610C72DDA48F500182948 /* Frameworks */,
+				85F610C82DDA48F500182948 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				85F610D02DDA48F500182948 /* SakoWidget */,
+			);
+			name = SakoWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = SakoWidgetExtension;
+			productReference = 85F610CA2DDA48F500182948 /* SakoWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -105,11 +201,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					85A057352D9382F100508FD7 = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					85F610C92DDA48F500182948 = {
+						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
@@ -154,12 +253,20 @@
 			projectRoot = "";
 			targets = (
 				85A057352D9382F100508FD7 /* Sako */,
+				85F610C92DDA48F500182948 /* SakoWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		85A057342D9382F100508FD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85F610C82DDA48F500182948 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -176,7 +283,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		85F610C62DDA48F500182948 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		85F610DB2DDA48F600182948 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 85F610C92DDA48F500182948 /* SakoWidgetExtension */;
+			targetProxy = 85F610DA2DDA48F600182948 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		85A057442D9382F100508FD7 /* Debug */ = {
@@ -378,6 +500,60 @@
 			};
 			name = Release;
 		};
+		85F610DE2DDA48F600182948 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SakoWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SakoWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ammarsufyan.Sako.SakoWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		85F610DF2DDA48F600182948 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SakoWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SakoWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ammarsufyan.Sako.SakoWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -395,6 +571,15 @@
 			buildConfigurations = (
 				85A057472D9382F100508FD7 /* Debug */,
 				85A057482D9382F100508FD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85F610E12DDA48F600182948 /* Build configuration list for PBXNativeTarget "SakoWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85F610DE2DDA48F600182948 /* Debug */,
+				85F610DF2DDA48F600182948 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
