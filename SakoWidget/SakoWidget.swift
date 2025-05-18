@@ -9,11 +9,33 @@ import WidgetKit
 import SwiftUI
 import SwiftData
 
-// Use the same model as in the app
+// Model untuk digunakan dalam widget
 struct MonthlyRevenue: Codable {
     let amount: Int
     let growth: Double
     let date: Date
+    let previousAmount: Int
+    
+    // Untuk backward compatibility
+    enum CodingKeys: String, CodingKey {
+        case amount, growth, date, previousAmount
+    }
+    
+    init(amount: Int, growth: Double, date: Date, previousAmount: Int = 0) {
+        self.amount = amount
+        self.growth = growth
+        self.date = date
+        self.previousAmount = previousAmount
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        amount = try container.decode(Int.self, forKey: .amount)
+        growth = try container.decode(Double.self, forKey: .growth)
+        date = try container.decode(Date.self, forKey: .date)
+        // Handle optional previousAmount for backward compatibility
+        previousAmount = try container.decodeIfPresent(Int.self, forKey: .previousAmount) ?? 0
+    }
 }
 
 struct Provider: AppIntentTimelineProvider {
@@ -66,7 +88,7 @@ struct Provider: AppIntentTimelineProvider {
         }
         
         // Return current data as fallback
-        return MonthlyRevenue(amount: 2500000, growth: 0.0, date: Date())
+        return MonthlyRevenue(amount: 2500000, growth: 0.0, date: Date(), previousAmount: 2500000)
     }
 }
 
@@ -93,8 +115,17 @@ struct SakoWidgetEntryView: View {
         return String(format: "%.1f", abs(entry.revenue.growth))
     }
     
+    var formattedPreviousAmount: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.groupingSeparator = "."
+        
+        let number = NSNumber(value: entry.revenue.previousAmount)
+        return formatter.string(from: number) ?? "\(entry.revenue.previousAmount)"
+    }
+    
     var growthAmount: Int {
-        return Int(abs(Double(entry.revenue.amount) * entry.revenue.growth / 100))
+        return abs(entry.revenue.amount - entry.revenue.previousAmount)
     }
     
     var formattedGrowthAmount: String {
@@ -131,13 +162,13 @@ struct SakoWidgetEntryView: View {
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
 
-            // Percentage with arrow
+            // Percentage with arrow - show growth compared to previous month
             HStack(spacing: 4) {
                 Image(systemName: entry.revenue.growth >= 0 ? "arrow.up" : "arrow.down")
                     .font(.system(size: 12))
                     .foregroundColor(entry.revenue.growth >= 0 ? .green : .red)
                 
-                Text("Rp\(formattedGrowthAmount)(+\(formattedGrowth)%)")
+                Text("Rp\(formattedGrowthAmount)(\(entry.revenue.growth >= 0 ? "+" : "-")\(formattedGrowth)%)")
                     .font(.system(size: 12))
                     .foregroundColor(entry.revenue.growth >= 0 ? .green : .red)
             }

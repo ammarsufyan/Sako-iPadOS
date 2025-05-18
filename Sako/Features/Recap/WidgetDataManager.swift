@@ -2,11 +2,12 @@ import Foundation
 import SwiftData
 import WidgetKit
 
-// Model for sharing with widget
+// Model untuk berbagi data dengan widget
 struct MonthlyRevenue: Codable {
     let amount: Int
     let growth: Double
     let date: Date
+    let previousAmount: Int
 }
 
 class WidgetDataManager {
@@ -16,12 +17,25 @@ class WidgetDataManager {
     private let revenueKey = "monthlyRevenue"
     
     private init() {
-        // Will be updated when RecapView appears
+        // Akan diperbarui ketika RecapView muncul
     }
     
-    // Update the widget data with the latest monthly revenue
-    func updateMonthlyRevenue(amount: Int, growth: Double, date: Date) {
-        let revenue = MonthlyRevenue(amount: amount, growth: growth, date: date)
+    // Fungsi untuk memperbarui data widget dengan pendapatan bulanan terbaru
+    func updateMonthlyRevenue(amount: Int, previousAmount: Int, date: Date) {
+        // Hitung persentase pertumbuhan
+        let growth: Double
+        if previousAmount > 0 {
+            growth = Double(amount - previousAmount) / Double(previousAmount) * 100
+        } else {
+            growth = 0
+        }
+        
+        let revenue = MonthlyRevenue(
+            amount: amount, 
+            growth: growth, 
+            date: date,
+            previousAmount: previousAmount
+        )
         
         do {
             let encoder = JSONEncoder()
@@ -34,7 +48,7 @@ class WidgetDataManager {
             sharedDefaults.set(data, forKey: revenueKey)
             sharedDefaults.synchronize()
             
-            // Trigger widget refresh
+            // Refresh widget
             #if os(iOS)
             WidgetCenter.shared.reloadAllTimelines()
             #endif
@@ -44,18 +58,37 @@ class WidgetDataManager {
     }
 }
 
-// Extension to call from RecapView
+// Extension untuk dipanggil dari RecapView
 extension WidgetDataManager {
     func updateWidgetWithRecapData(totalRevenue: Int, previousMonthRevenue: Int, date: Date) {
-        // Calculate growth percentage
-        let growth: Double
-        if previousMonthRevenue > 0 {
-            growth = Double(totalRevenue - previousMonthRevenue) / Double(previousMonthRevenue) * 100
-        } else {
-            growth = 0
+        // Perbarui data widget
+        updateMonthlyRevenue(
+            amount: totalRevenue, 
+            previousAmount: previousMonthRevenue, 
+            date: date
+        )
+    }
+    
+    // Fungsi untuk mendapatkan data pendapatan berdasarkan tanggal (bulan) tertentu
+    func getRevenueForMonth(sales: [Sales], date: Date) -> Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month], from: date)
+        
+        let filteredSales = sales.filter { sale in
+            let saleComponents = calendar.dateComponents([.year, .month], from: sale.date)
+            return saleComponents.year == components.year && saleComponents.month == components.month
         }
         
-        // Update widget data
-        updateMonthlyRevenue(amount: totalRevenue, growth: growth, date: date)
+        return filteredSales.reduce(0) { $0 + $1.totalPrice }
+    }
+    
+    // Fungsi untuk mendapatkan data pendapatan bulan sebelumnya
+    func getPreviousMonthRevenue(sales: [Sales], currentDate: Date) -> Int {
+        let calendar = Calendar.current
+        guard let previousMonthDate = calendar.date(byAdding: .month, value: -1, to: currentDate) else {
+            return 0
+        }
+        
+        return getRevenueForMonth(sales: sales, date: previousMonthDate)
     }
 } 

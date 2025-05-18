@@ -661,8 +661,6 @@ struct RecapView: View {
 
     // Helper function to update widget data
     private func updateWidgetData() {
-        print("RecapView: Updating widget data with totalRevenue: \(totalRevenue), previousMonthRevenue: \(previousMonthRevenue)")
-        
         WidgetDataManager.shared.updateWidgetWithRecapData(
             totalRevenue: totalRevenue,
             previousMonthRevenue: previousMonthRevenue,
