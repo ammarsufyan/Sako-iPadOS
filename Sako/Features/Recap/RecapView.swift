@@ -383,7 +383,7 @@ struct RecapView: View {
     private func RevenueCard() -> some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Total Pendapatan Bulanan")
-                .font(.system(size: 17, weight: .bold))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 4) {
@@ -401,7 +401,7 @@ struct RecapView: View {
             LineChartView(data: weeklyRevenueData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
-                .padding(.top, 16)
+                .padding(.top, 18)
                 .padding(.bottom, 8)
         }
         .padding(20)
@@ -417,7 +417,7 @@ struct RecapView: View {
     private func OrdersCard() -> some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Total Pesanan Bulanan")
-                .font(.system(size: 17, weight: .bold))
+                .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 4) {
@@ -436,7 +436,7 @@ struct RecapView: View {
             BarChartView(data: weeklyOrdersData)
                 .frame(height: 150)
                 .padding(.trailing, 30)
-                .padding(.top, 16)
+                .padding(.top, 18)
                 .padding(.bottom, 8)
         }
         .padding(20)
@@ -454,7 +454,7 @@ struct RecapView: View {
     private func TopProductsCard() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Produk Terlaris Bulanan")
-                .font(.system(size: 17, weight: .bold))
+                .font(.system(size: 20, weight: .bold))
                 .padding(.horizontal)
             
             if topProducts.isEmpty {
@@ -483,7 +483,7 @@ struct RecapView: View {
                                         .frame(width: 30, alignment: .leading)
                                     
                                     Text(product.name)
-                                        .font(.system(size: 14, weight: .bold))
+                                        .font(.system(size: 16, weight: .bold))
                                         .foregroundStyle(.black)
 
                                     Spacer()
@@ -526,7 +526,7 @@ struct RecapView: View {
                                             .frame(width: 30, alignment: .leading)
                                         
                                         Text(product.name)
-                                            .font(.system(size: 14, weight: .bold))
+                                            .font(.system(size: 16, weight: .bold))
                                             .foregroundStyle(.black)
                                         Spacer()
                                         

@@ -182,7 +182,7 @@ struct SakoWidgetEntryView: View {
 
             // Revenue
             Text("Rp\(formattedPrice)")
-                .font(.system(size: 24, weight: .bold))
+                .font(.system(size: 32, weight: .bold))
                 .foregroundColor(.black)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
