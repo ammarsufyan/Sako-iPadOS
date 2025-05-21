@@ -25,9 +25,9 @@
 
 ## 📸 Cuplikan Layar
 
-![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-05-18 at 22 35 55](https://github.com/user-attachments/assets/4ab408fc-2228-4fa9-8adf-6c914ab9fadc)
+![Screenshot 2025-05-20 at 00 54 39](https://github.com/user-attachments/assets/abf44c15-a481-4b0d-8219-8a00c4101142)
 
-![Simulator Screenshot - iPad Pro 13-inch (M4) - 2025-05-18 at 22 50 30](https://github.com/user-attachments/assets/33588cc4-c9b6-4113-91c2-a733854d0fae)
+![Screenshot 2025-05-20 at 00 53 37](https://github.com/user-attachments/assets/b7bb5e55-05e7-4e55-bd18-497a3023d9fb)
 
 ---
 
