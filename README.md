@@ -27,7 +27,7 @@
 
 ## 📸 Tampilan Aplikasi
 
-![C8S1 - Experience Challenge - Ammar Sufyan - Sako App](https://github.com/user-attachments/assets/1b056ccb-a6a1-45bc-8171-8f00e6e1d129)
+![C8S1 - Experience Challenge - Ammar Sufyan - Sako App](https://github.com/user-attachments/assets/6f0b76e9-221b-4da6-8c5d-3ea58059fd41)
 
 ## ✅ Persyaratan
 
