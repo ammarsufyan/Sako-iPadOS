@@ -36,4 +36,4 @@
 
 ## 📬 Kontak
 
-Dikembangkan oleh [Ammar Sufyan](https://github.com/ammarsufyan) - Team 5. 
+Dikembangkan oleh [Ammar Sufyan](https://github.com/ammarsufyan) - Team 5 (Morning). 
