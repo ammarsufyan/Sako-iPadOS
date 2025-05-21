@@ -1,6 +1,6 @@
-# Sako-iPadOS
+# 🧾 Sako – iPadOS
 
-**Sako-iPadOS** adalah aplikasi iPad yang dirancang untuk membantu pengguna dalam mengelola penjualan mereka dengan mudah dan efisien. Aplikasi ini memungkinkan pengguna untuk mencatat transaksi penjualan, memantau statistik penjualan bulanan, dan mengelola data produk dengan antarmuka yang intuitif dan responsif.
+**Sako-iPadOS** adalah aplikasi iPad yang membantu mencatat transaksi penjualan di kantin secara **offline**. Dirancang khusus untuk kemudahan dan efisiensi tanpa bergantung pada koneksi internet.
 
 <img src="https://github.com/user-attachments/assets/9e2d4e3c-6bba-4d01-9ef6-0bf78df49665" width="250px" alt="Sako Logo">
 
